@@ -21,7 +21,7 @@ export type NoteNameType =
   | 'Bb'
   | 'B#'
 
-export type OctaveType = '3' | '4' | '5' | '6'
+export type OctaveType = '2' | '3' | '4' | '5' | '6'
 
 export type DurationType =
   | 'w' // whole
@@ -46,6 +46,7 @@ export type TimeSignatureType =
 
 export type MusicStaffPropsType = {
   note: VexNoteStringType
-  clef: 'treble' | 'bass'
   timeSignature: TimeSignatureType
+  spotlight: boolean | null
+  description: string
 }

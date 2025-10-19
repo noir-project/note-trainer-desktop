@@ -1,32 +1,44 @@
-type StatItem = {
-  name: string
-  value: number | string
-  id: number
-}
-
 type StatChartProps = {
-  data: StatItem[]
+  level: number
+  score: number
+  streak: number
+  accuracy: number
   currentExp: number
   maxExp: number
 }
 
-export const StatChart = ({ data, currentExp, maxExp }: StatChartProps): React.JSX.Element => {
+export const StatChart = ({
+  level,
+  score,
+  streak,
+  accuracy,
+  currentExp,
+  maxExp
+}: StatChartProps): React.JSX.Element => {
   const expPercent = Math.min(Math.max((currentExp / maxExp) * 100, 0), 100)
   return (
     <section className="flex flex-col gap-2">
       {/* stats */}
       <div className="grid grid-cols-4 gap-2">
-        {data.map((x) => {
-          return (
-            <div
-              key={x.id}
-              className="border border-gray-300 rounded-lg flex flex-col gap-1 p-2 shadow-inner"
-            >
-              <p className="text-sm font-normal">{x.name}</p>
-              <p className="text-base font-semibold">{x.value}</p>
-            </div>
-          )
-        })}
+        {/* stat */}
+        <div className="border border-gray-300 rounded-lg flex flex-col gap-1 p-2 shadow-inner">
+          <p className="text-sm font-normal">level</p>
+          <p className="text-base font-semibold">{level}</p>
+        </div>
+        <div className="border border-gray-300 rounded-lg flex flex-col gap-1 p-2 shadow-inner">
+          <p className="text-sm font-normal">score</p>
+          <p className="text-base font-semibold">{score}</p>
+        </div>
+        <div className="border border-gray-300 rounded-lg flex flex-col gap-1 p-2 shadow-inner">
+          <p className="text-sm font-normal">streak</p>
+          <p className="text-base font-semibold">{streak}</p>
+        </div>
+        <div className="border border-gray-300 rounded-lg flex flex-col gap-1 p-2 shadow-inner">
+          <p className="text-sm font-normal">accuracy</p>
+          <p className="text-base font-semibold">{accuracy}</p>
+        </div>
+
+        {/* stat */}
       </div>
 
       {/* exp bar */}

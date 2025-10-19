@@ -1,64 +1,120 @@
-import { Factory } from 'vexflow'
+import { BASSNOTE_STRINGS, BOTHNOTE_STRINGS, TREBLENOTE_STRINGS } from '../game/level'
+import { Factory, Voice } from 'vexflow'
 import { useEffect, useRef } from 'react'
 import { MusicStaffPropsType } from './music-staff.type'
 
 export const MusicStaff = ({
   note,
-  clef,
-  timeSignature
+  timeSignature,
+  spotlight,
+  description
 }: MusicStaffPropsType): React.JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null)
   const elementId = 'vexflow-output'
 
   useEffect(() => {
-    if (!containerRef.current) return
+    if (containerRef.current) {
+      const { width } = containerRef.current.getBoundingClientRect()
+      containerRef.current.innerHTML = '' // Clear previous render
 
-    const { width, height } = containerRef.current.getBoundingClientRect()
-    containerRef.current.innerHTML = ''
-
-    const vf = new Factory({
-      renderer: { elementId, width, height }
-    })
-
-    const score = vf.EasyScore()
-
-    // --- dynamic Y offset depending on note pitch ---
-    // Extract octave number from the note (e.g., "C3/q" -> 3)
-    const octaveMatch = note.match(/\d/)
-    const octave = octaveMatch ? parseInt(octaveMatch[0]) : 4
-
-    // Base offset (centered)
-    let yOffset = height * 0.25
-
-    // If very low note on treble clef, shift up to show ledger lines
-    if (clef === 'treble' && octave <= 3) {
-      yOffset = height * 0.1
-    }
-
-    // If high note, lower the stave slightly
-    if (clef === 'treble' && octave >= 6) {
-      yOffset = height * 0.35
-    }
-
-    const system = vf.System({
-      x: 0,
-      y: yOffset,
-      width: width
-    })
-
-    system
-      .addStave({
-        voices: [score.voice(score.notes(note), { time: timeSignature })]
+      const vf = new Factory({
+        renderer: {
+          elementId,
+          width,
+          height: 250 // Fixed height for grand staff
+        }
       })
-      .addClef(clef)
+      const system = vf.System({
+        width
+      })
 
-    vf.draw()
-  }, [note, clef, timeSignature])
+      const noteId = note.split('/')[0].toLowerCase()
+      let clef: 'treble' | 'bass' | null = null
+
+      if (BOTHNOTE_STRINGS.includes(noteId)) {
+        clef = Math.random() < 0.5 ? 'bass' : 'treble'
+      } else if (BASSNOTE_STRINGS.includes(noteId)) {
+        clef = 'bass'
+      } else if (TREBLENOTE_STRINGS.includes(noteId)) {
+        clef = 'treble'
+      }
+
+      if (clef === null) return
+
+      const [noteNameWithOctave, duration] = note.split('/')
+
+      const noteName = noteNameWithOctave.slice(0, -1)
+      const octave = noteNameWithOctave.slice(-1)
+      const keys = [noteName + '/' + octave]
+
+      let beat_value
+      switch (duration) {
+        case 'w':
+          beat_value = 1
+          break
+        case 'h':
+          beat_value = 2
+          break
+        case 'q':
+          beat_value = 4
+          break
+        case '8':
+          beat_value = 8
+          break
+        case '16':
+          beat_value = 16
+          break
+        case '32':
+          beat_value = 32
+          break
+        default:
+          beat_value = 4
+      }
+      const voiceTime = `1/${beat_value}`
+
+      const staveNote = vf.StaveNote({
+        keys: keys,
+        duration: duration,
+        clef: clef
+      })
+
+      const voice = vf.Voice({ time: voiceTime }).addTickables([staveNote])
+
+      const trebleVoices: Voice[] = []
+      if (clef === 'treble') {
+        trebleVoices.push(voice)
+      }
+
+      const bassVoices: Voice[] = []
+      if (clef === 'bass') {
+        bassVoices.push(voice)
+      }
+
+      system
+        .addStave({
+          voices: trebleVoices
+        })
+        .addClef('treble')
+
+      system
+        .addStave({
+          voices: bassVoices
+        })
+        .addClef('bass')
+
+      vf.draw()
+    }
+  }, [note, timeSignature])
 
   return (
-    <section className="flex-1 h-full mb-2 border border-gray-300 rounded-lg shadow-inner p-2">
-      <div className="flex items-center h-full w-full">
+    <section
+      className={`flex-1 h-full mb-2 border border-gray-300 rounded-lg shadow-inner p-2 ${spotlight === null ? '' : spotlight ? 'ring-4 ring-green-400' : 'ring-4 ring-red-400'}`}
+    >
+      <div className="flex items-center h-full w-full relative">
         <div id={elementId} ref={containerRef} className="w-full" />
+        <p className="text-xs text-gray-400 absolute inset-x-0 bottom-0 text-center">
+          {description}
+        </p>
       </div>
     </section>
   )

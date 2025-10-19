@@ -84,9 +84,6 @@ export function useConfetti(): UseConfettiReturn {
           })()
           break
         }
-
-        default:
-          console.warn('Unknown confetti type')
       }
     },
     [randomInRange]
