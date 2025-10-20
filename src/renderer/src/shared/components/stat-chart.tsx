@@ -35,7 +35,7 @@ export const StatChart = ({
         </div>
         <div className="border border-gray-300 rounded-lg flex flex-col gap-1 p-2 shadow-inner">
           <p className="text-sm font-normal">accuracy</p>
-          <p className="text-base font-semibold">{accuracy}</p>
+          <p className="text-base font-semibold">{Number(accuracy).toPrecision(3)}</p>
         </div>
 
         {/* stat */}

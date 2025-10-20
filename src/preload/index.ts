@@ -9,6 +9,8 @@ const api = {
     record: {
       level?: number
       score?: number
+      correct_count?: number
+      total_count?: number
       streak?: number
       accuracy?: number
       exp?: number

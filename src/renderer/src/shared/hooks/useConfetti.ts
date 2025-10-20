@@ -15,12 +15,6 @@ type UseConfettiReturn = {
   CONFETTI_THEMES: typeof CONFETTI_THEMES
 }
 
-//   const { fireConfetti } = useConfetti()
-//   <button onClick={() => fireConfetti('fireworks', 'fire')}>🎆 Fireworks (fire)</button>
-//   <button onClick={() => fireConfetti('fireworks', 'gold')}>🌈 School Pride (gold)</button>
-//   <button onClick={() => fireConfetti('schoolPride', 'fire')}>🎆 Fireworks (fire)</button>
-//   <button onClick={() => fireConfetti('schoolPride', 'gold')}>🌈 School Pride (gold)</button>
-
 export function useConfetti(): UseConfettiReturn {
   const randomInRange = useCallback((min: number, max: number) => {
     return Math.random() * (max - min) + min

@@ -7,6 +7,8 @@ declare global {
     score: number
     streak: number
     accuracy: number
+    correct_count: number
+    total_count: number
     exp: number
     created_at: string
   }
@@ -23,6 +25,8 @@ declare global {
           streak?: number
           accuracy?: number
           exp?: number
+          correct_count?: number
+          total_count?: number
         }
       ) => Promise<void>
     }
