@@ -1,8 +1,22 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  getGameRecord: (id: number) => ipcRenderer.invoke('get-game-record', id),
+  updateGameRecord: (
+    id: number,
+    record: {
+      level?: number
+      score?: number
+      correct_count?: number
+      total_count?: number
+      streak?: number
+      accuracy?: number
+      exp?: number
+    }
+  ) => ipcRenderer.invoke('update-game-record', id, record)
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

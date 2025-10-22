@@ -1,6 +1,6 @@
 {
   "name": "note-trainer-desktop",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "cr3wcr3w",
@@ -22,15 +22,22 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
-    "electron-updater": "^6.3.9"
+    "better-sqlite3": "^12.4.1",
+    "canvas-confetti": "^1.9.3",
+    "electron-updater": "^6.3.9",
+    "react-modal": "^3.16.3",
+    "vexflow": "^5.0.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
     "@electron-toolkit/eslint-config-ts": "^3.1.0",
     "@electron-toolkit/tsconfig": "^2.0.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.18.6",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "@types/react-modal": "^3.16.3",
     "@vitejs/plugin-react": "^5.0.3",
     "autoprefixer": "^10.4.21",
     "electron": "^38.1.2",
@@ -47,5 +54,8 @@
     "tailwindcss": "^3.4.18",
     "typescript": "^5.9.2",
     "vite": "^7.1.6"
+  },
+  "engines": {
+    "node": "~22"
   }
 }
