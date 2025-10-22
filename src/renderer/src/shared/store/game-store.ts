@@ -92,8 +92,7 @@ export const useGameStat = create<UseGameStatType>((set, get) => ({
       exp,
       score,
       streak,
-      updateGameRecord,
-      generateNewAnswerNote
+      updateGameRecord
     } = get()
 
     const isCorrect = selected === answerNote.split('/')[0]
@@ -128,8 +127,6 @@ export const useGameStat = create<UseGameStatType>((set, get) => ({
     })
 
     set({ spotlight: isCorrect })
-
-    generateNewAnswerNote()
 
     setTimeout(() => {
       set({ spotlight: null })
